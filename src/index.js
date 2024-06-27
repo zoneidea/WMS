@@ -22,7 +22,7 @@ function App() {
 }
 
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/WMS">
   	<App />
   </BrowserRouter>
 );
