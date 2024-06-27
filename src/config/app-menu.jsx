@@ -1,6 +1,6 @@
 const Menu = [
-  { path: '/', icon: 'fa fa-sitemap', title: 'Home' }
-  /*
+  { path: '/', icon: 'fa fa-sitemap', title: 'Home' },
+
   { path: '/menu', icon: 'fa fa-align-left', title: 'Menu Level',
     children: [
       { path: '/menu/menu-1-1', title: 'Menu 1.1',
@@ -19,7 +19,7 @@ const Menu = [
       { path: '/menu/menu-1-3', title: 'Menu 1.3' },
     ]
   }
-  */
+
 ]
 
 export default Menu;
