@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Panel, PanelHeader, PanelBody } from './../../components/panel/panel.jsx';
+import { Panel, PanelHeader, PanelBody } from '../../components/panel/panel.jsx';
 
 function Home() {
 	return (

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useResolvedPath, useMatch, useLocation, matchPath, Link, NavLink } from 'react-router-dom';
-import menus from './../../config/app-menu.jsx';
+import menus from './../../config/app-menu.js';
 import { slideUp } from './../../composables/slideUp.js';
 import { slideToggle } from './../../composables/slideToggle.js';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AppSettings } from './../../config/app-settings.js';
+import { AppSettings } from '../../config/app-settings.js';
 
 function Error() {
   const context = useContext(AppSettings);

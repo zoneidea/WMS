@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useResolvedPath, useMatch, NavLink, useLocation, matchPath } from 'react-router-dom';
 import { AppSettings } from './../../config/app-settings.js';
-import menus from './../../config/app-menu.jsx';
+import menus from './../../config/app-menu.js';
 
 function NavItem({ menu, ...props }: LinkProps) {
 	let resolved = useResolvedPath(menu.path);

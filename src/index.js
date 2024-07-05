@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, useRoutes } from "react-router-dom";
-import AppRoute from './config/app-route.jsx';
+import AppRoute from './config/app-route.js';
 
 // bootstrap
 import 'bootstrap';
@@ -26,3 +26,26 @@ root.render(
   	<App />
   </BrowserRouter>
 );
+
+
+// {
+//     "roleName": "testRole",
+//     "menu": [
+//         {
+//             "menuId": "ST-002",
+//             "menuName": "สิทธิ์การใช้งาน",
+//             "menuParentId": "ST-001",
+//             "insertStatus": false,
+//             "editStatus": false,
+//             "delStatus":false
+//         },
+//         {
+//             "menuId": "ST-003",
+//             "menuName": "ผู้ใช้งาน",
+//             "menuParentId": "ST-001",
+//             "insertStatus": false,
+//             "editStatus": false,
+//             "delStatus":0
+//         }
+//     ]
+// }
