@@ -6,6 +6,7 @@ import Error from '../pages/error/error.jsx';
 
 import Permission from '../pages/permission/permission.jsx'
 import Users from '../pages/users/users.jsx'
+import Test from '../pages/test/test.jsx'
 
 const AppRoute = [
   {
@@ -21,6 +22,7 @@ const AppRoute = [
     children: [
     	{ path: 'settings/permission', element: <Permission /> },
     	{ path: 'settings/users', element: <Users /> },
+    	{ path: 'settings/test', element: <Test /> },
 		]
   },
 ];

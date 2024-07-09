@@ -5,6 +5,7 @@ const Menu = [
     children: [
       { path: '/settings/permission', title: 'สิทธิ์การใช้งาน'},
       { path: '/settings/users', title: 'ผู้ใช้งาน' },
+      { path: '/settings/test', title: 'เทส' },
     ]
   }
 
