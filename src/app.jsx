@@ -9,7 +9,7 @@ import TopMenu from './components/top-menu/top-menu.jsx';
 import Content from './components/content/content.jsx';
 import ThemePanel from './components/theme-panel/theme-panel.jsx';
 
-function App() {	
+function App() {
 	const [appTheme] = useState('');
 	const [appDarkMode, setAppDarkMode] = useState(false);
 	const [appGradientEnabled, setAppGradientEnabled] = useState(false);
@@ -37,8 +37,8 @@ function App() {
 	const [appSidebarEnd, setAppSidebarEnd] = useState(false);
 	const [appSidebarEndToggled, setAppSidebarEndToggled] = useState(false);
 	const [appSidebarEndMobileToggled, setAppSidebarEndMobileToggled] = useState(false);
-  
-  const handleSetAppHeaderNone = (value) => {
+
+	const handleSetAppHeaderNone = (value) => {
 		setAppHeaderNone(value);
 	};
 
@@ -201,12 +201,12 @@ function App() {
 		}
 		document.dispatchEvent(new Event('theme-reload'));
 	};
-	
+
 	const toggleAppSidebarEnd = (e) => {
 		e.preventDefault();
 		setAppSidebarEndToggled(!appSidebarEndToggled);
 	};
-	
+
 	const toggleAppSidebarEndMobile = (e) => {
 		e.preventDefault();
 		setAppSidebarEndMobileToggled(!appSidebarEndMobileToggled);

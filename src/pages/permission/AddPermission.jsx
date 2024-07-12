@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Panel, PanelHeader, PanelBody } from '../../components/panel/panel.jsx';
 import axios from 'axios';
 import { constants } from '../../constants/constants.js';
@@ -9,51 +9,43 @@ import { FormLabel, Input } from '@mui/joy';
 
 import DataTable from 'react-data-table-component';
 
-export default function EditPermission() {
-
-  const { roleId, roleName } = useParams()
-  // console.log('roleId', roleId);
-  // console.log('roleName', roleName);
+export default function AddPermission() {
 
   useEffect(() => {
     try {
       axios.get(constants.GET_MENU_API)
         .then(response => {
-          let getAllMenu = response.data
-          // console.log(`getAllMenu`, getAllMenu)
-
-          getAllMenu.map(async (menu, index) => {
-            console.log(`menu`, menu);
-
-            const resultPerm = await axios.get(`${constants.BASE_API}/Role/GetRolePermission?roleId=${roleId}&orgId=1&menuId=${menu.menuId}`);
-            // console.log(`resultPerm`, resultPerm.data);
-
-            menu.insertStatus = resultPerm.data[0].insertStatus
-            menu.editStatus = resultPerm.data[0].editStatus
-            menu.delStatus = resultPerm.data[0].delStatus
-          })
-          setMenus(getAllMenu)
+          setMenus(response.data);
         })
     } catch (error) {
       console.error('Error fetching Menu:', error);
     }
+
   }, []);
 
-
-  const [dataRoleName, setDataRoleName] = useState([])
-  console.log(`dataRoleName`, dataRoleName);
+  //สร้าง Role + Permission เก็บลง db
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    axios.post(constants.POST_ROLE_API, { roleName, menus, orgId: 1 })
+      .then(response => {
+        console.log('Role save on DB successfully', response);
+      }).catch(error => {
+        console.error("There was an error saving the Role!", error);
+      })
+  }
 
   //ตัวแปร menu เก็บ menu จาก api + แสดง table
   const [menus, setMenus] = useState([]);
+  console.log('menus', menus);
   const [loading, setLoading] = useState(false);
 
   //insert roleName ลง db
-  // const [roleName, setRoleName] = useState('')
+  const [roleName, setRoleName] = useState('')
 
   //handle ชื่อ Role
-  // const handleChangeRoleName = (e) => {
-  //   setRoleName(e.target.value)
-  // }
+  const handleChangeRoleName = (e) => {
+    setRoleName(e.target.value)
+  }
 
   //ตาราง table inside Modal
   const handlePermissionView = (rowMenuId) => {
@@ -98,46 +90,46 @@ export default function EditPermission() {
       }, {
         name: 'ดู',
         cell: row => (
-          <div>
+          <Box>
             <input
               type='checkbox'
               checked={row.viewStatus}
               onChange={() => handlePermissionView(row.menuId)}
             />
-          </div>
+          </Box>
         ),
       }, {
         name: 'เพิ่ม',
         cell: row => (
-          <div>
+          <Box>
             <input
               type='checkbox'
               checked={row.insertStatus}
               onChange={() => handlePermissionInsert(row.menuId)}
             />
-          </div>
+          </Box>
         ),
       }, {
         name: 'แก้ไข',
         cell: row => (
-          <div>
+          <Box>
             <input
               type='checkbox'
               checked={row.editStatus}
               onChange={() => handlePermissionEdit(row.menuId)}
             />
-          </div>
+          </Box>
         ),
       }, {
         name: 'ลบ',
         cell: row => (
-          <div>
+          <Box>
             <input
               type='checkbox'
               checked={row.delStatus}
               onChange={() => handlePermissionDel(row.menuId)}
             />
-          </div>
+          </Box>
         ),
       },
     ]
@@ -149,12 +141,12 @@ export default function EditPermission() {
         <li className="breadcrumb-item"><Link to="/page-option/blank">Page Options</Link></li>
         <li className="breadcrumb-item active">Blank Page</li>
       </ol>
-      <h1 className="page-header">แก้ไขสิทธิ์ผู้ใช้งาน <small>Edit Permission</small></h1>
+      <h1 className="page-header">เพิ่มสิทธิ์ผู้ใช้งาน <small>Add Permission</small></h1>
       <Panel>
-        <PanelHeader>แก้ไขสิทธิ์ผู้ใช้งาน</PanelHeader>
+        <PanelHeader>เพิ่มสิทธิ์ผู้ใช้งาน</PanelHeader>
         <PanelBody>
 
-          <form >
+          <form onSubmit={handleSubmit}>
             <Box style={{ display: "flex", alignItems: "center", marginTop: 20 }}>
               <FormLabel
                 sx={{
@@ -166,28 +158,30 @@ export default function EditPermission() {
                 ชื่อสิทธิ์ผู้ใช้งาน
                 <span style={{ color: "red" }}> *</span></FormLabel>
               <Input
-                sx={{
+                 sx={{
                   backgroundColor: "#fff",
                   width: "70%",
                   marginLeft: 1,
                   fontSize: 12
-                }}
+              }}
                 size='sm'
                 placeholder='Enter Rolename'
                 type='text'
                 value={roleName}
-                // onChange={handleChangeRoleName}
+                onChange={handleChangeRoleName}
               />
             </Box>
 
             <hr />
 
+            {/* Table inside Modal */}
             <DataTable
               columns={columns}
               data={menus}
               progressPending={loading}
               pagination
             />
+            {/* Table inside Modal */}
 
             <Box style={{
               display: "flex",
