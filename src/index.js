@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import AppRoute from './config/app-route.js';
 
+import store from './store/store.js';
+import { Provider } from 'react-redux'
+
 // bootstrap
 import 'bootstrap';
 
@@ -11,7 +14,6 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './index.css';
 import './scss/react.scss';
-
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -23,6 +25,8 @@ function App() {
 
 root.render(
 	<BrowserRouter basename="/WMS">
-		<App />
+		<Provider store={store}>
+			<App />
+		</Provider>
 	</BrowserRouter>
 );

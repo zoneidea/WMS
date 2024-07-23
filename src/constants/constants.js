@@ -1,10 +1,13 @@
-export const constants = {
-    BASE_API: 'http://zoneidea.dyndns-ip.com:5000',
-    
-    GET_MENU_API: 'http://zoneidea.dyndns-ip.com:5000/Menu/GetMenu',
-    GET_ROLE_API: 'http://zoneidea.dyndns-ip.com:5000/Role/GetRole',
-    GET_USER_API: 'http://zoneidea.dyndns-ip.com:5000/User/GetUser',
+export const BASE_API = 'http://zoneidea.dyndns-ip.com:5055/'
 
-    POST_ROLE_API: 'http://zoneidea.dyndns-ip.com:5000/Role/AddRole',
-    POST_USER_API: 'http://zoneidea.dyndns-ip.com:5000/User/AddUser'
+export const constants = {
+    GET_MENU_API: `${BASE_API}Menu/GetMenu`,
+    GET_ROLE_API: `${BASE_API}Role/GetRole`,
+    GET_USER_API: `${BASE_API}User/GetUser`,
+
+    POST_ROLE_API: `${BASE_API}Role/AddRole`,
+    POST_USER_API: `${BASE_API}User/AddUser`,
+
+    PUT_ROLE_API: `${BASE_API}Role/EditRoleStatus`,
+    
 }

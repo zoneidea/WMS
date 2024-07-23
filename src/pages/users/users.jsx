@@ -81,7 +81,7 @@ export default function Users() {
         <PanelBody>
 
           <Link to="addusers">
-            <Button variant="outlined" type='submit' sx={{ fontSize: 12 }}>เพิ่มผู้ใช้งาน</Button>
+            <Button variant="contained" type='submit' sx={{ fontSize: 12 }}>เพิ่มผู้ใช้งาน</Button>
           </Link>
 
           <hr />

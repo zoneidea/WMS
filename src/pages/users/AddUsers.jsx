@@ -172,26 +172,18 @@ export default function AddUsers() {
                                 สิทธิ์ผู้ใช้งาน
                                 <span style={{ color: "red" }}> *</span>
                             </FormLabel>
-                            <Select
-                                sx={{
-                                    backgroundColor: "#fff",
-                                    width: "70%",
-                                    marginLeft: 1,
-                                    fontSize: 12
-                                }}
-                                size='sm'
-                                placeholder="Choose Role"
-                                onChange={handleSelectedRole}>
+                            <select
+                                class="form-control form-control-sm selectpicker ddlStatus btn-update dropdown-toggle mx-2"
+                                style={{ width: "70%", borderRadius: 5 }}
+                                onChange={handleSelectedRole}
+                            >
                                 {getRoles.map((getRole) => (
-                                    <MenuItem
-                                        sx={{ fontSize: 12 }}
+                                    <option
                                         key={getRole.roleId}
                                         value={getRole.roleId}
-                                    >
-                                        {getRole.roleName}
-                                    </MenuItem>
+                                    >{getRole.roleName}</option>
                                 ))}
-                            </Select>
+                            </select>
                         </Box>
 
                         <Box style={{ display: "flex", alignItems: "center", marginTop: 20 }}>

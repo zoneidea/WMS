@@ -28,7 +28,7 @@ const AppRoute = [
     	{ path: 'settings/test', element: <Test /> },
     	{ path: 'settings/perm', element: <Permission /> },
     	{ path: 'settings/perm/addperm', element: <AddPermission /> },
-    	{ path: 'settings/perm/editperm/:roleName/:roleId/:orgId', element: <EditPermission /> },
+    	{ path: 'settings/perm/editperm/:roleId/:orgId', element: <EditPermission /> },
     	{ path: 'settings/users', element: <Users /> },
     	{ path: 'settings/users/addusers', element: <AddUsers /> },
 		]

@@ -1,78 +1,77 @@
 import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Panel, PanelHeader, PanelBody } from '../../components/panel/panel.jsx';
 import axios from 'axios';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { editRoleStatus } from '../../features/permission/permissionSlice.js'
 import { constants } from '../../constants/constants.js';
 
-import { Button, Box, MenuItem, Checkbox } from '@mui/material';
+import { Panel, PanelHeader, PanelBody } from '../../components/panel/panel.jsx';
+import { Button, Box, MenuItem, Checkbox, FormControl, InputLabel } from '@mui/material';
 import { FormLabel, Input, Select } from '@mui/joy';
-
 import DataTable from 'react-data-table-component';
 
 export default function Permission() {
+	const dispatch = useDispatch()
+
+	const [loading, setLoading] = useState(false);
+	const [addRequestStatus, setAddRequestStatus] = useState('idle')
+
+	const [allRole, setAllRole] = useState([]);
+	// console.log(`allRole`, allRole);
+
+	const [roleId, setRoleId] = useState([]);
+	const [roleActive, setRoleActive] = useState([]);
+	// console.log(`roleId`, roleId);
+	// console.log(`roleActive`, roleActive);
 
 	useEffect(() => {
-		try {
-			axios.get(constants.GET_MENU_API)
-				.then(response => {
-					setMenus(response.data);
-				})
-		} catch (error) {
-			console.error('Error fetching Menu:', error);
-		}
-
-	}, []);
+		const ids = allRole.map((role) => role.roleId);
+		setRoleId(ids);
+	}, [allRole]);
 
 	useEffect(() => {
-		try {
-			axios.get(constants.GET_ROLE_API)
-				.then(response => {
-					setGetRole(response.data)
-				})
-		} catch (error) {
-			console.error('Error fetching Role:', error);
+		const status = allRole.map((role) => role.roleActive);
+		setRoleActive(status);
+	}, [allRole]);
+
+	useEffect(() => {
+		const getData = async () => {
+			try {
+				axios.get(constants.GET_ROLE_API)
+					.then(response => {
+						setAllRole(response.data);
+					})
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
 		}
+		getData()
 	}, [])
 
-	//ตัวแปร menu เก็บ menu จาก api + แสดง table
-	const [menus, setMenus] = useState([]);
-	const [loading, setLoading] = useState(false);
-
-	//ตัวแปร getRole เก็บ Role จาก api
-	const [getRole, setGetRole] = useState([])
-
-	//ตาราง table inside Modal
-	const handlePermissionView = (rowMenuId) => {
-		const updatedStatus = menus.map(menu =>
-			menu.menuId === rowMenuId ? { ...menu, viewStatus: !menu.viewStatus } : menu
+	const handleSelectChange = (rowId) => {
+		const updatedRoleStatus = allRole.map(role =>
+			role.roleId === rowId ? { ...role, roleActive: !role.roleActive } : role
 		)
-		setMenus(updatedStatus)
+		setAllRole(updatedRoleStatus)
+		console.log(`updatedRoleStatus`, updatedRoleStatus);
+		onSavePermission()
 	}
 
-	const handlePermissionInsert = (rowMenuId) => {
-		const updatedStatus = menus.map(menu =>
-			menu.menuId === rowMenuId ? { ...menu, insertStatus: !menu.insertStatus } : menu
-		)
-		setMenus(updatedStatus)
+	const onSavePermission = async () => {
+		try {
+			const resultAction = await dispatch(
+				editRoleStatus({ roleId, roleActive })
+			)
+			unwrapResult(resultAction)
+			console.log(`SuccessFully to edit status`);
+		} catch (error) {
+			console.error(`Failed to edit status`, error);
+		}
 	}
 
-	const handlePermissionEdit = (rowMenuId) => {
-		const updatedStatus = menus.map(menu =>
-			menu.menuId === rowMenuId ? { ...menu, editStatus: !menu.editStatus } : menu
-		)
-		setMenus(updatedStatus)
-	};
-
-	const handlePermissionDel = (rowMenuId) => {
-		const updatedStatus = menus.map(menu =>
-			menu.menuId === rowMenuId ? { ...menu, delStatus: !menu.delStatus } : menu
-		)
-		setMenus(updatedStatus)
-	};
-
-
-	//ตาราง table outside Modal 
-	const columnOutSide = [
+	const column = [
 		{
 			name: '#',
 			selector: row => row.roleId, // คอลัมน์จาก API
@@ -87,41 +86,21 @@ export default function Permission() {
 		}, {
 			name: 'สถานะ',
 			cell: row => (
-				// <div>
-				// 	<select style={{ width: "200px" }}>
-				// 		<option key={row.roleId} value={row.roleId}>Active</option>
-				// 		<option key={row.roleId} value={row.roleId}>InActive</option>
-				// 	</select>
-				// </div>
-				<Box>
-					<Select
-						placeholder={row.roleActive === 1 ? "Active" : "InActive"}
-						size="sm"
-						sx={{
-							fontSize: 12,
-							backgroundColor: "#fff",
-						}}>
-						<MenuItem
-							sx={{ fontSize: 12 }}
-							key={row.roleId}
-							value={row.roleId}
-						>
-							Active
-						</MenuItem>
-						<MenuItem
-							style={{ fontSize: 12 }}
-							key={row.roleId}
-							value={row.roleId}
-						>
-							InActive
-						</MenuItem>
-					</Select>
-				</Box>
+				<div class='dropdown dropdown-toggle'>
+					<select
+						class="form-control form-control-sm selectpicker ddlStatus btn-update dropdown-toggle"
+						style={{ width: "100%" }}
+						onChange={() => handleSelectChange(row.roleId)}
+					>
+						<option value={row.roleActive}>Active</option>
+						<option value={row.roleActive}>InActive</option>
+					</select>
+				</div>
 			),
 		}, {
 			name: 'จัดการสิทธิ์',
 			cell: row => (
-				<Link to={`editperm/${row.roleName}/${row.roleId}/1`}>
+				<Link to={`editperm/${row.roleId}/1`}>
 					<Box class="btn btn-sm btn-warning btn-set-per"><i class="far fa-edit"></i></Box>
 				</Link>
 			),
@@ -146,14 +125,14 @@ export default function Permission() {
 				<PanelBody>
 
 					<Link to="addperm">
-						<Button variant="outlined" type='submit' sx={{ fontSize: 12 }}>เพิ่มสิทธิ์ผู้ใช้งาน</Button>
+						<Button variant="contained" type='submit' sx={{ fontSize: 12 }}>เพิ่มสิทธิ์ผู้ใช้งาน</Button>
 					</Link>
 
 					<hr />
 
 					<DataTable
-						columns={columnOutSide}
-						data={getRole}
+						columns={column}
+						data={allRole}
 						progressPending={loading}
 						pagination
 					/>
