@@ -2,10 +2,17 @@ import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Panel, PanelHeader, PanelBody } from '../../components/panel/panel.jsx';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from '@mui/material';
 
 export default function Users() {
+  const dispatch = useDispatch()
+
+  const [addRequestStatus, setAddRequestStatus] = useState('idle')
+
+  const user = useSelector(state => state.user.users)
+  console.log(`user`, user);
 
   //เรียก role จาก api เก็บลงตัวแปร role
   useEffect(() => {

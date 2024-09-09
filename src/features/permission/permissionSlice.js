@@ -68,9 +68,16 @@ const permissionSlice = createSlice({
             state.error = action.payload
         })
         //GetAllRole
+        builder.addCase(getRole.pending, (state, action) => {
+            state.status = 'loading'
+        })
         builder.addCase(getRole.fulfilled, (state, action) => {
             state.status = 'succeeded'
             state.role = action.payload
+        })
+        builder.addCase(getRole.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.payload
         })
         //EditRoleStatus
         builder.addCase(editRoleStatus.pending, (state, action) => {
@@ -91,40 +98,3 @@ const permissionSlice = createSlice({
 export const { } = permissionSlice.actions
 
 export default permissionSlice.reducer
-
-// const initialState = {
-//     roleName: [],
-//     status: 'idle',
-//     error: null
-// }
-
-// export const addPermission = createAsyncThunk('createPermission', async (initialPermission) => {
-//         const response = await axios.post(constants.POST_ROLE_API, { roleName: initialPermission })
-//         return response.post
-//     }
-// )
-
-// const permissionSlice = createSlice({
-//     name: 'roleName',
-//     initialState,
-//     reducers: {
-
-//     },
-//     extraReducers: (builder) => {
-//         builder.addCase(addPermission.pending, (state, action) => {
-//             state.status = 'loading'
-//         })
-//         builder.addCase(addPermission.fulfilled, (state, action) => {
-//             state.status = 'succeeded'
-//             state.roleName.push(action.payload)
-//         })
-//         builder.addCase(addPermission.rejected, (state, action) => {
-//             state.status = 'failed'
-//             state.error = action.payload
-//         })
-//     }
-// })
-
-// export const { permissionAdded } = permissionSlice.actions
-
-// export default permissionSlice.reducer
